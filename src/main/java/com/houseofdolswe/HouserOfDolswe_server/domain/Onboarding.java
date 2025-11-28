@@ -32,7 +32,7 @@ public class Onboarding extends BaseEntity {
 	private Long userId;
 
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@MapsId                              // <-- 핵심: user의 id를 이 엔티티의 PK로 “맵핑”
+	@MapsId
 	@JoinColumn(name = "user_id")
 	private User user;
 
@@ -48,8 +48,4 @@ public class Onboarding extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "age_range", nullable = false, length = 20)
 	private Age age;
-
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, length = 20)
-	private Status status = Status.NOT_STARTED;
 }

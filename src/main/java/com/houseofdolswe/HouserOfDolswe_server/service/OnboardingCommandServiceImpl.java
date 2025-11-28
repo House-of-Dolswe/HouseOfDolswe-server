@@ -38,10 +38,12 @@ public class OnboardingCommandServiceImpl implements OnboardingCommandService {
 			.house(house)
 			.call(call)
 			.age(age)
-			.status(Status.COMPLETED)
 			.build();
 
+		user.setOnboardingStatus(Status.COMPLETED);
+
 		onboardingRepository.save(onboarding);
+		userRepository.save(user);
 
 		return new OnboardingResponseDTO("completed");
 	}
