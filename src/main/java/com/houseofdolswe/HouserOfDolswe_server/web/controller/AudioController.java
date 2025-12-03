@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.houseofdolswe.HouserOfDolswe_server.apiPayload.ApiResponse;
 import com.houseofdolswe.HouserOfDolswe_server.service.AudioCommandService;
 import com.houseofdolswe.HouserOfDolswe_server.web.dto.PostLikeResponseDTO;
+import com.houseofdolswe.HouserOfDolswe_server.web.dto.StatusResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,5 +26,13 @@ public class AudioController {
 	) {
 		Long userId = 1L;
 		return ApiResponse.onSuccess(audioCommandService.postLike(userId, audioId));
+	}
+
+	@DeleteMapping("/{audio-id}/like")
+	public ApiResponse<StatusResponseDTO> deleteLike(
+		@PathVariable("audio-id") Long audioId
+	) {
+		Long userId = 1L;
+		return ApiResponse.onSuccess(audioCommandService.deleteLike(userId, audioId));
 	}
 }

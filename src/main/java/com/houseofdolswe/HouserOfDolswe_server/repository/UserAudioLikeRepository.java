@@ -10,5 +10,5 @@ import com.houseofdolswe.HouserOfDolswe_server.domain.UserAudioLike;
 
 public interface UserAudioLikeRepository extends JpaRepository<UserAudioLike, Long> {
 
-	Optional<UserAudioLike> existsByUserAndAudio(User user, Audio audio);
+	Optional<UserAudioLike> findByUserAndAudio(User user, Audio audio);
 }
