@@ -1,0 +1,10 @@
+package com.houseofdolswe.HouserOfDolswe_server.apiPayload.exception.handler;
+
+import com.houseofdolswe.HouserOfDolswe_server.apiPayload.code.BaseErrorCode;
+import com.houseofdolswe.HouserOfDolswe_server.apiPayload.exception.GeneralException;
+
+public class AuthHandler extends GeneralException {
+	public AuthHandler(BaseErrorCode errorCode) {
+		super(errorCode);
+	}
+}
