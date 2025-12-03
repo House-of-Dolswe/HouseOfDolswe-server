@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.houseofdolswe.HouserOfDolswe_server.apiPayload.ApiResponse;
 import com.houseofdolswe.HouserOfDolswe_server.service.KakaoLoginCommandService;
+import com.houseofdolswe.HouserOfDolswe_server.web.dto.KakaoLoginResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,11 +19,9 @@ public class LoginController {
 	private final KakaoLoginCommandService kakaoLoginCommandService;
 
 	@GetMapping("/kakao")
-	public ApiResponse<?> kakaoLogin(
+	public ApiResponse<KakaoLoginResponseDTO> kakaoLogin(
 		@RequestParam String code
 	) {
-		// return ApiResponse.onSuccess(kakaoLoginCommandService.getKakaoAccessToken(code));
-		String accessToken = kakaoLoginCommandService.getKakaoAccessToken(code);
-		return ApiResponse.onSuccess(kakaoLoginCommandService.getKakaoId(accessToken));
+		return ApiResponse.onSuccess(kakaoLoginCommandService.kakaoLogin(code));
 	}
 }
