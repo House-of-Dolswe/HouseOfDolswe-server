@@ -8,4 +8,5 @@ import com.houseofdolswe.HouserOfDolswe_server.domain.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByUserId(Long userId);
+	Optional<User> findByKakaoId(Long kakaoId);
 }
