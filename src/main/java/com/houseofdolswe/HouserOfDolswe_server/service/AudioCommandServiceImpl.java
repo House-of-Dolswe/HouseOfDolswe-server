@@ -1,5 +1,7 @@
 package com.houseofdolswe.HouserOfDolswe_server.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.houseofdolswe.HouserOfDolswe_server.apiPayload.code.status.ErrorStatus;
@@ -30,6 +32,13 @@ public class AudioCommandServiceImpl implements AudioCommandService {
 
 		Audio audio = audioRepository.findByAudioId(audioId)
 			.orElseThrow(() -> new AudioHandler(ErrorStatus.AUDIO_NOT_FOUND));
+
+		Optional<UserAudioLike> existing = likeRepository.existsByUserAndAudio(user, audio);
+
+		// 이미 좋아요가 존재하는 경우 (DELETE가 제대로 실행되지 않고 즐겨찾기 버튼을 다시 누른 경우)
+		if (existing.isPresent()) {
+			return new PostLikeResponseDTO("already liked", null);
+		}
 
 		UserAudioLike like = UserAudioLike.of(user, audio);
 		likeRepository.save(like);

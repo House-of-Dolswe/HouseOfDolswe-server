@@ -23,7 +23,10 @@ public enum ErrorStatus implements BaseErrorCode {
 	KAKAO_INVALID_REQUEST(HttpStatus.BAD_REQUEST, "KAKAO4001", "카카오 API 요청 파라미터가 잘못되었습니다."),
 	KAKAO_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "KAKAO5001", "카카오 서버에서 오류가 발생했습니다."),
 
-	AUDIO_NOT_FOUND(HttpStatus.NOT_FOUND, "AUDIO4001", "오디오를 찾을 수 없습니다.");
+	AUDIO_NOT_FOUND(HttpStatus.NOT_FOUND, "AUDIO4001", "오디오를 찾을 수 없습니다."),
+
+	LIKE_ALREADY_EXISTS(HttpStatus.CONFLICT, "LIKE4001", "이미 좋아요를 눌렀습니다");
+
 
 	private final HttpStatus httpStatus;
 	private final String code;
