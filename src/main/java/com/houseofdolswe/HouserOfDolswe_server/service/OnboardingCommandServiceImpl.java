@@ -13,7 +13,7 @@ import com.houseofdolswe.HouserOfDolswe_server.domain.enums.Status;
 import com.houseofdolswe.HouserOfDolswe_server.repository.OnboardingRepository;
 import com.houseofdolswe.HouserOfDolswe_server.repository.UserRepository;
 import com.houseofdolswe.HouserOfDolswe_server.service.command.OnboardingCommand;
-import com.houseofdolswe.HouserOfDolswe_server.web.dto.OnboardingResponseDTO;
+import com.houseofdolswe.HouserOfDolswe_server.web.dto.StatusResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,7 @@ public class OnboardingCommandServiceImpl implements OnboardingCommandService {
 	private final OnboardingRepository onboardingRepository;
 
 	@Override
-	public OnboardingResponseDTO postOnboarding(Long userId, OnboardingCommand onboardingCommand) {
+	public StatusResponseDTO postOnboarding(Long userId, OnboardingCommand onboardingCommand) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
 
@@ -45,6 +45,6 @@ public class OnboardingCommandServiceImpl implements OnboardingCommandService {
 		onboardingRepository.save(onboarding);
 		userRepository.save(user);
 
-		return new OnboardingResponseDTO("completed");
+		return new StatusResponseDTO("completed");
 	}
 }

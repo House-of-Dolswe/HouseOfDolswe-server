@@ -25,7 +25,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class KakaoLoginCommandServiceImpl implements KakaoLoginCommandService {
+public class KakaoLoginQueryServiceImpl implements KakaoLoginQueryService {
 
 	private final JwtTokenProvider jwtTokenProvider;
 	@Value("${kakao.auth.client}")

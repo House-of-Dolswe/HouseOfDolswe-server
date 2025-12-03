@@ -1,8 +1,8 @@
 package com.houseofdolswe.HouserOfDolswe_server.service;
 
 import com.houseofdolswe.HouserOfDolswe_server.service.command.OnboardingCommand;
-import com.houseofdolswe.HouserOfDolswe_server.web.dto.OnboardingResponseDTO;
+import com.houseofdolswe.HouserOfDolswe_server.web.dto.StatusResponseDTO;
 
 public interface OnboardingCommandService {
-	OnboardingResponseDTO postOnboarding(Long userId, OnboardingCommand onboardingCommand);
+	StatusResponseDTO postOnboarding(Long userId, OnboardingCommand onboardingCommand);
 }
