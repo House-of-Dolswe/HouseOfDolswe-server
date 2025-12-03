@@ -21,6 +21,8 @@ public class LoginController {
 	public ApiResponse<?> kakaoLogin(
 		@RequestParam String code
 	) {
-		return ApiResponse.onSuccess(kakaoLoginCommandService.getKakaoAccessToken(code));
+		// return ApiResponse.onSuccess(kakaoLoginCommandService.getKakaoAccessToken(code));
+		String accessToken = kakaoLoginCommandService.getKakaoAccessToken(code);
+		return ApiResponse.onSuccess(kakaoLoginCommandService.getKakaoId(accessToken));
 	}
 }
