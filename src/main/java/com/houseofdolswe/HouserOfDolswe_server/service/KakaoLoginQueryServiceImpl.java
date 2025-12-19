@@ -21,8 +21,10 @@ import com.houseofdolswe.HouserOfDolswe_server.web.dto.KakaoUserInfoResponseDTO;
 
 import io.netty.handler.codec.http.HttpHeaderValues;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class KakaoLoginQueryServiceImpl implements KakaoLoginQueryService {
@@ -48,8 +50,16 @@ public class KakaoLoginQueryServiceImpl implements KakaoLoginQueryService {
 				.build(true))
 			.header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
 			.retrieve()
-			.onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new KakaoHandler(ErrorStatus.KAKAO_INVALID_REQUEST)))
-			.onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new KakaoHandler(ErrorStatus.KAKAO_SERVER_ERROR)))
+			.onStatus(HttpStatusCode::is4xxClientError, res ->
+				res.bodyToMono(String.class).defaultIfEmpty("")
+					.doOnNext(body -> log.error("[KAKAO] /oauth/token 4xx. status={}, body={}", res.statusCode(), body))
+					.then(Mono.error(new KakaoHandler(ErrorStatus.KAKAO_INVALID_REQUEST)))
+			)
+			.onStatus(HttpStatusCode::is5xxServerError, res ->
+				res.bodyToMono(String.class).defaultIfEmpty("")
+					.doOnNext(body -> log.error("[KAKAO] /oauth/token 5xx. status={}, body={}", res.statusCode(), body))
+					.then(Mono.error(new KakaoHandler(ErrorStatus.KAKAO_SERVER_ERROR)))
+			)
 			.bodyToMono(KakaoTokenResponseDTO.class)
 			.block();
 

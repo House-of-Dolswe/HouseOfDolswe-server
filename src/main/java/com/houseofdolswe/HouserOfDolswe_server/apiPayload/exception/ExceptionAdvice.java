@@ -29,6 +29,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@org.springframework.web.bind.annotation.ExceptionHandler
 	public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
+		log.warn("[VALIDATION] {}", e.getMessage());
 		String errorMessage = e.getConstraintViolations().stream()
 			.map(constraintViolation -> constraintViolation.getMessage())
 			.findFirst()
@@ -39,6 +40,8 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	public ResponseEntity<Object> handleMethodArgumentNotValid(
 		MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+		log.warn("[VALIDATION] {}", e.getMessage());
 
 		Map<String, String> errors = new LinkedHashMap<>();
 
@@ -54,7 +57,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@org.springframework.web.bind.annotation.ExceptionHandler
 	public ResponseEntity<Object> exception(Exception e, WebRequest request) {
-		e.printStackTrace();
+		log.error("[APP] Unhandled exception", e);
 
 		return handleExceptionInternalFalse(e, ErrorStatus._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY, ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(),request, e.getMessage());
 	}
@@ -62,6 +65,14 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = GeneralException.class)
 	public ResponseEntity onThrowException(GeneralException generalException, HttpServletRequest request) {
 		ErrorReasonDTO errorReasonHttpStatus = generalException.getErrorReasonHttpStatus();
+		log.warn("[APP] {} {} -> status={}, code={}, message={}",
+			request.getMethod(),
+			request.getRequestURI(),
+			errorReasonHttpStatus.getHttpStatus(),
+			errorReasonHttpStatus.getCode(),
+			errorReasonHttpStatus.getMessage(),
+			generalException
+		);
 		return handleExceptionInternal(generalException,errorReasonHttpStatus,null,request);
 	}
 
